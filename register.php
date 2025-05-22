@@ -64,12 +64,12 @@ if (isset($_SESSION['login'])) {
 <form method="post">
     <label for="name">Naam:</label>
     <input type="text" id="name" name="name" value="<?= $inputs['name'] ?? '' ?>">
-    <div><?= $errors['name'] ?? '' ?> <?= $errors['used'] ?? '' ?></div>
+    <div><?= $errors['name'] ?? '' ?></div>
     <label for="email">Email:</label>
     <input type="text" id="email" name="email" value="<?= $inputs['email'] ?? '' ?>">
     <div><?= $errors['email'] ?? '' ?></div>
     <label for="password">Wachtwoord:</label>
-    <input type="text" id="password" name="password">
+    <input type="password" id="password" name="password">
     <div><?= $errors['password'] ?? '' ?></div>
     <button name="submit">Verzenden</button>
 </form>

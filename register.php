@@ -37,12 +37,22 @@ if (isset($_POST['submit'])) {
     }
 
     if (count($errors) === 0) {
-        $query = $db->prepare('INSERT INTO users (name, email, password) VALUES (:name, :email, :password)');
-        $query->bindParam('name', $inputs['name']);
-        $query->bindParam('email', $inputs['email']);
-        $query->bindParam('password', $password);
-        $query->execute();
-        header('Location: login.php');
+
+        $emailQuery = $db->prepare('SELECT email FROM users WHERE email = :email');
+        $emailQuery->bindParam('email', $inputs['email']);
+        $emailQuery->execute();
+        $users = $emailQuery->fetchAll(PDO::FETCH_ASSOC);
+
+        if (count($users) === 0) {
+            $query = $db->prepare('INSERT INTO users (name, email, password) VALUES (:name, :email, :password)');
+            $query->bindParam('name', $inputs['name']);
+            $query->bindParam('email', $inputs['email']);
+            $query->bindParam('password', $password);
+            $query->execute();
+            header('Location: login.php');
+        } else {
+            $errors['used'] = USED_ERROR;
+        }
     }
 }
 ?>
@@ -56,15 +66,18 @@ if (isset($_POST['submit'])) {
     <title>Document</title>
 </head>
 <body>
-<?php
-if (isset($_SESSION['login'])) {
-    echo $_SESSION['email'];
-}
-?>
+<nav>
+    <?php if (!isset($_SESSION['login'])): ?>
+        <a href="login.php">Login</a>
+        <a href="index.php">Registreren</a>
+    <?php else: ?>
+        <a href="account.php">Account</a>
+    <?php endif; ?>
+</nav>
 <form method="post">
     <label for="name">Naam:</label>
     <input type="text" id="name" name="name" value="<?= $inputs['name'] ?? '' ?>">
-    <div><?= $errors['name'] ?? '' ?></div>
+    <div><?= $errors['name'] ?? '' ?> <?= $errors['used'] ?? '' ?></div>
     <label for="email">Email:</label>
     <input type="text" id="email" name="email" value="<?= $inputs['email'] ?? '' ?>">
     <div><?= $errors['email'] ?? '' ?></div>

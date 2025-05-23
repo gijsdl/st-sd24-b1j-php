@@ -28,10 +28,10 @@ if (isset($_POST['submit'])) {
         $query->execute();
         $user = $query->fetch(PDO::FETCH_ASSOC);
 
-        if ($user) {
-            if (password_verify($password, $user['password'])) {
+        if ($user){
+            if (password_verify($password, $user['password'])){
                 $_SESSION['email'] = $inputs['email'];
-
+                $_SESSION['login'] = true;
                 header('Location: index.php');
             }
         }

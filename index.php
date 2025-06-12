@@ -32,6 +32,7 @@ $categories = $query->fetchAll(PDO::FETCH_ASSOC);
     <tr>
         <td><?= $category['name'] ?></td>
         <td><a href="products.php?id=<?= $category['id'] ?>">Producten</a></td>
+        <td><a href="update.php?id=<?= $category['id'] ?>">Update</a></td>
     </tr>
     <?php endforeach; ?>
     </tbody>

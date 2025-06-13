@@ -16,15 +16,18 @@ $id = $_GET['id'];
 $selectQuery = $db->prepare('SELECT * FROM category WHERE id = :id');
 $selectQuery->bindParam('id', $id);
 $selectQuery->execute();
+
 $category = $selectQuery->fetch(PDO::FETCH_ASSOC);
 
 const NAME_ERROR = "Vul een naam in";
 
 if (isset($_POST['submit'])){
+
     $errors = [];
     $inputs = [];
 
     $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
+
 
     if (empty($name)){
         $errors['name'] = NAME_ERROR;
@@ -37,6 +40,7 @@ if (isset($_POST['submit'])){
         $updateQuery->bindParam('name', $inputs['name']);
         $updateQuery->bindParam('id', $id);
         $updateQuery->execute();
+
         header('Location: index.php');
     }
 }
@@ -54,7 +58,10 @@ if (isset($_POST['submit'])){
 <body>
 <form method="post">
     <label for="name">Naam: </label>
-    <input type="text" id="name" name="name" value="<?= $category['name'] ?>"><br>
+
+    <input type="text" id="name" name="name" value="<?= $category['name'] ?? '' ?>"><br>
+
+
     <div><?= $errors['name'] ?? '' ?></div>
     <button name="submit">Verzenden</button>
 </form>

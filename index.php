@@ -1,7 +1,14 @@
 <?php
-
+session_start();
 require 'db.php';
 global $db;
+
+if (isset($_SESSION['login']) && $_SESSION['login']) {
+    $userQuery = $db->prepare('SELECT * FROM users WHERE email = :email');
+    $userQuery->bindParam('email', $_SESSION['email']);
+    $userQuery->execute();
+    $user = $userQuery->fetch(PDO::FETCH_ASSOC);
+}
 
 $query = $db->prepare('SELECT * FROM category');
 $query->execute();
@@ -28,12 +35,14 @@ $categories = $query->fetchAll(PDO::FETCH_ASSOC);
     </tr>
     </thead>
     <tbody>
-    <?php foreach ($categories as $category):?>
-    <tr>
-        <td><?= $category['name'] ?></td>
-        <td><a href="products.php?id=<?= $category['id'] ?>">Producten</a></td>
-        <td><a href="update.php?id=<?= $category['id'] ?>">Update</a></td>
-    </tr>
+    <?php foreach ($categories as $category): ?>
+        <tr>
+            <td><?= $category['name'] ?></td>
+            <td><a href="products.php?id=<?= $category['id'] ?>">Producten</a></td>
+            <?php if (isset($user) && $user['role'] === 'ROLE_ADMIN'): ?>
+                <td><a href="update.php?id=<?= $category['id'] ?>">update</a></td>
+            <?php endif; ?>
+        </tr>
     <?php endforeach; ?>
     </tbody>
 </table>

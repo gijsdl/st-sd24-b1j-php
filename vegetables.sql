@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 23 mei 2025 om 10:00
+-- Gegenereerd op: 13 jun 2025 om 11:03
 -- Serverversie: 10.4.28-MariaDB
 -- PHP-versie: 8.2.4
 
@@ -42,7 +42,7 @@ CREATE TABLE `category` (
 INSERT INTO `category` (`id`, `name`) VALUES
 (1, 'Groene Groente'),
 (2, 'Niet groene groente'),
-(3, 'test');
+(3, 'oranje groenten');
 
 -- --------------------------------------------------------
 
@@ -78,15 +78,16 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `email` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `role` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `users`
 --
 
-INSERT INTO `users` (`id`, `email`, `name`, `password`) VALUES
-(1, 'test@test.nl', 'test', '$2y$10$B7X7RSeLGnXscBZhZxgx2ujX8b9D13JrLV6mImEw.1V5nnN3TzXom');
+INSERT INTO `users` (`id`, `email`, `name`, `password`, `role`) VALUES
+(1, 'test@test.nl', 'test', '$2y$10$B7X7RSeLGnXscBZhZxgx2ujX8b9D13JrLV6mImEw.1V5nnN3TzXom', 'ROLE_ADMIN');
 
 --
 -- Indexen voor geëxporteerde tabellen
